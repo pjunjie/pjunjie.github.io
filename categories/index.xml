@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on Mycroft</title>
+        <link>http://pjunjie.github.io/categories/</link>
+        <description>Recent content in Categories on Mycroft</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 02 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://pjunjie.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>计算机网络</title>
+        <link>http://pjunjie.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+        <pubDate>Sun, 02 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>http://pjunjie.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>生活碎片</title>
+        <link>http://pjunjie.github.io/categories/%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/</link>
+        <pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate>
+        
+        <guid>http://pjunjie.github.io/categories/%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
+</rss>

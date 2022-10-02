@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>生活碎片 on Mycroft</title>
+        <link>http://pjunjie.github.io/categories/%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/</link>
+        <description>Recent content in 生活碎片 on Mycroft</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Tue, 20 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://pjunjie.github.io/categories/%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>First Post</title>
+        <link>http://pjunjie.github.io/post/first-post/first-post/</link>
+        <pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate>
+        
+        <guid>http://pjunjie.github.io/post/first-post/first-post/</guid>
+        <description>&lt;h2 id=&#34;第一篇博客&#34;&gt;第一篇博客&lt;/h2&gt;
+&lt;p&gt;搞了好久我都还没有成功，我彻底失败&lt;/p&gt;
+&lt;p&gt;总算能看到了，但是已经花了我一天半了，还是照着教程弄的，我注定失败&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

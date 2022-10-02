@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Mycroft</title>
+        <link>http://pjunjie.github.io/</link>
+        <description>Recent content on Mycroft</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 02 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://pjunjie.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>CongestionControl</title>
+        <link>http://pjunjie.github.io/post/second-post/congestioncontrol/</link>
+        <pubDate>Sun, 02 Oct 2022 00:00:00 +0000</pubDate>
+        
+        <guid>http://pjunjie.github.io/post/second-post/congestioncontrol/</guid>
+        <description>&lt;h1 id=&#34;计算机网络拥塞控制经典模型对比与个人见解&#34;&gt;计算机网络拥塞控制经典模型对比与个人见解&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;计算机网络拥塞造成原因&#34;&gt;计算机网络拥塞造成原因&lt;/h3&gt;
+&lt;p&gt;计算机网络链路中有个bottleneck的概念，即网络传输链路中的”瓶颈“，我将举个例子。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/bottleneck.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 1&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;通过图片我们可以看出D链路在A和B链路高负荷运转的时候，没办法容纳下从A和B链路到达的所有数据包，这就是所谓的&amp;quot;bottleneck&amp;quot;，
+虽然我们可以在bottleneck的接入终端，比如路由等，配置适当大小的buffer，但是它只能缓解并不能解决问题，数据包过多的时候仍然
+会溢出，所以我们还得从其他方法缓解网络拥塞。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;计算机网络拥塞控制的目标&#34;&gt;计算机网络拥塞控制的目标&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;高吞吐量（Throughput）
+$$
+Throughput = \frac{Cwnd}{RTT}
+$$
+理想状况下，可以调整Cwnd，使链路达到BDP
+$$
+BDP = bandwidth \times {delay product}
+$$
+倘若希望达到尽量不丢包重传的情况，可以放宽至
+$$
+BDP+{Max queue size}
+$$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;公平性（Fairness）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;例如：Max-min Fairness策略，简单来说就是从bottleneck按需进行公平划分带宽，比如有x条链路，则将每个链路初始划分带宽为该
+bottleneck的$\frac 1x$,依次遍历每条接入链路，倘若所需带宽大于刚计算的平均值，那么先不要分配，先分配那些所需最大带宽不超过平均
+值的链路，然后把剩下的带宽平均分配给尚未被分配到带宽的链路，如下图所示&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/fairness.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 2&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;图片中不仅有Max-min Fairness机制，还有其他的机制，有兴趣可以自行Google了解，本文其他没有详述内容同上或者邮件联系我&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;对网络状况敏感（Respond quickly）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;例如：Vegas在拥塞避免阶段，通过计算预测吞吐量和实际吞吐量之间的差距和判定机制，调整发送方的拥塞控制窗口大小，可以主动的更快
+的适应网络拥塞状况变化的情况，更好地适应网络状况动态变化这一特点，可参考TCP Vegas原文&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://dl.acm.org/doi/pdf/10.1145/190314.190317&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;TCP Vegas: new techniques for congestion detection and avoidance&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;分布式（Distributed control）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;个人理解就是，网络控制最好不要集中到某一处，倘若那一处不工作了，整个网络也会瘫痪，而且网络的接入本身就是多点，分布式更贴近网
+络本身的情况和特点，故而分布式法则在处理一些网络问题时，能体现出更好的性能&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;计算机网络拥塞控制方法个人总结&#34;&gt;计算机网络拥塞控制方法个人总结&lt;/h3&gt;
+&lt;h5 id=&#34;主要方向&#34;&gt;主要方向&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;Network-based&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;例如：ABR Congestion Control Mechanism,简化机制大致如下&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/Network-based.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 3&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;End-host based&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;例如：TCP采用的一些拥塞控制机制，我将在主要基本模型专题进行对比，我个人认为若要大范围的部署新的拥塞控制机制，最好是遵循类
+end-to-end principle思想，比如TCP Vegas在原有的基础上进行部署，只在发送方进行调整&lt;/p&gt;
+&lt;h5 id=&#34;主要方法&#34;&gt;主要方法&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;拥塞窗口大小控制&lt;/li&gt;
+&lt;li&gt;路由算法拥塞缓解&lt;/li&gt;
+&lt;li&gt;节点队列排队机制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;更加细分来说，或许可以概括为以下几种方法&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在某些路径上，预测拥塞发生，及时调整拥塞控制机制算法&lt;/li&gt;
+&lt;li&gt;预测到拥塞发生时，数据包选择绕路&lt;/li&gt;
+&lt;li&gt;发现拥塞后，充分利用有关链路，分流平衡&lt;/li&gt;
+&lt;li&gt;根据拥塞情况，控制发送端的拥塞窗口&lt;/li&gt;
+&lt;li&gt;主动丢包，进行超时重传&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h5 id=&#34;拥塞指标&#34;&gt;拥塞指标&lt;/h5&gt;
+&lt;p&gt;目前看来，主要通过RTT（反映链路和节点拥塞情况），冗余确认，丢包等指标反映网络拥塞情况&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;计算机网络拥塞控制基本模型&#34;&gt;计算机网络拥塞控制基本模型&lt;/h3&gt;
+&lt;h5 id=&#34;tcp-tahoe&#34;&gt;TCP Tahoe&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/TahoeFSM.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 4&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/TahoeBehavior.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 5&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;该机制文字叙述版如下,目的主要是用语言阐述和熟悉FSM图，后文将直接展示FSM图，不再进行语言描述&lt;/p&gt;
+&lt;p&gt;当建立起连接后，发送方先进入慢启动状态，每个报文段被确认下次发送就增加一倍对应报文段，即指数增长
+$$
+cwnd+=MSS
+$$
+当第一次发生超时时，将重传未确认包，并将拥塞窗口(window size)设置为1，并将拥塞避免机制门槛(ssthresh)设置为超时前拥塞窗
+口值的$\frac 12$，然后再次进入慢启动阶段
+$$
+cwnd=1,ssthresh=cwnd/2
+$$
+当cwnd超过ssthresh时，进入拥塞避免状态
+$$
+cwnd&amp;gt;ssthresh
+$$
+进入拥塞避免状态后每个报文段被确认，就线性增长，公式如下
+$$
+cwnd+=\frac{(MSS^2)}{cwnd}
+$$
+当发送端意识到超时或者收到三次冗余确认后，采取同第一次超时一样的机制&lt;/p&gt;
+&lt;p&gt;注：FSM图横线以上为机制行为，横线以下为参数调整&lt;/p&gt;
+&lt;p&gt;不足之处：丢包时它需要等待超时或者三次冗余（冗余确认时类似Go back n mechanism），这会浪费大量时间和带宽&lt;/p&gt;
+&lt;h5 id=&#34;tcp-reno&#34;&gt;TCP Reno&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/RenoFSM.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 6&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/RenoBehavior.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 7&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;不足之处：连续丢包时，只有完成第一次丢包重传才会开始知悉同时丢的其他的包；而且如果是冗余确认这种方式检测丢包，同报文段内多次丢
+包会导致拥塞窗口多次衰减，降低效率&lt;/p&gt;
+&lt;h5 id=&#34;tcp-new-reno&#34;&gt;TCP New Reno&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/pjunjie/PicturesUsedInSomewhere/main/ZKMarkdown/TCPNewRenoFiniteStateMachine.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;pic 8&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注：这个FSM图已经很复杂了，所以我的评价是，建议直接读论文或者它的RFC文档:D&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.rfc-editor.org/rfc/rfc3782&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;The NewReno Modification to TCP&amp;rsquo;s Fast Recovery Algorithm&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;不足之处：它仍要等待长时间才能知道丢包，而且仍然没有解决丢一个报文段才有可能知道同时丢的其他报文段&lt;/p&gt;
+&lt;h5 id=&#34;tcp-vegas&#34;&gt;TCP Vegas&lt;/h5&gt;
+&lt;p&gt;TCP Vegas 采用了与上述被动机制都不同的主动拥塞控制机制，通过过往指标，预测并计算合适带宽，通过拥塞窗口实现，同时也采取“主动判定”
+超时的办法，很好的改进了拥塞控制机制，建议读论文感受作者的智慧&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://dl.acm.org/doi/pdf/10.1145/190314.190317&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;em&gt;TCP Vegas: new techniques for congestion detection and avoidance&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;引用Carl sagan为&lt;em&gt;A Brief History of Time&lt;/em&gt;作前言的话结束本文。欢迎通过邮箱和我交流pjunjie898@gmail.com&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We go about our daily lives understanding almost nothing of the world.&lt;br&gt;
+We give little thought of the machinery that generates the sunlight and makes life possible.&lt;br&gt;
+To the gravity that glues us to the earth that would otherwise send us spinning off into space.&lt;br&gt;
+Or to the atoms that which we are made&amp;hellip;and on who’s stability we fundamentally depend.&lt;br&gt;
+Few of us spend much time wondering why nature is the way it is.&lt;br&gt;
+Where the cosmos came from.&lt;br&gt;
+Whether it was always there.&lt;br&gt;
+If time will one day flow backward.&lt;br&gt;
+Or whether there are ultimate limits to what humans can know.&lt;br&gt;
+What is the smallest piece of matter.&lt;br&gt;
+Why we remember the past and not the future.&lt;br&gt;
+And why there is a universe.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>First Post</title>
+        <link>http://pjunjie.github.io/post/first-post/first-post/</link>
+        <pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate>
+        
+        <guid>http://pjunjie.github.io/post/first-post/first-post/</guid>
+        <description>&lt;h2 id=&#34;第一篇博客&#34;&gt;第一篇博客&lt;/h2&gt;
+&lt;p&gt;搞了好久我都还没有成功，我彻底失败&lt;/p&gt;
+&lt;p&gt;总算能看到了，但是已经花了我一天半了，还是照着教程弄的，我注定失败&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
