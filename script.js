@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const img = document.querySelector('.personal_img');
 
     img.addEventListener('mouseover', function() {
-        img.src = 'pengjunjie.png';
+        img.src = 'images/pengjunjie1.jpg';
     });
 
     img.addEventListener('mouseout', function() {
